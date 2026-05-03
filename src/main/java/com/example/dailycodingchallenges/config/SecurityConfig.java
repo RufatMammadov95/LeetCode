@@ -25,12 +25,10 @@ public class SecurityConfig {
 				.headers(headers -> headers.frameOptions(frame -> frame.disable()))
 
 				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-				.authorizeHttpRequests(auth -> auth
+				.authorizeHttpRequests(auth -> auth.requestMatchers("/auth/**").permitAll()
+						.requestMatchers("/h2-console/**").permitAll().requestMatchers("/api/leetcode/**").permitAll()
 
-						.requestMatchers("/auth/**").permitAll().requestMatchers("/h2-console/**").permitAll()
-
-						.requestMatchers("/api/challenges").hasAnyRole("USER", "ADMIN")
-						.requestMatchers("/api/challenges/**").hasRole("ADMIN")
+						.requestMatchers("/api/challenges/**").permitAll()
 
 						.anyRequest().authenticated())
 
